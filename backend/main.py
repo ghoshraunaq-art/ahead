@@ -1,11 +1,1 @@
-from fastapi import FastAPI
-
-app = FastAPI()
-
-
-@app.get("/")
-def read_root():
-    return {
-        "message": "Welcome to Ahead",
-        "status": "backend is running"
-    }
+from app.main import app
