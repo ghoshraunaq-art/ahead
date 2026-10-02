@@ -52,3 +52,23 @@ The backend remains responsible for validating and executing application actions
 > Build the core around stable concepts and allow capabilities to be added around the core.
 
 This decision is intended to reduce future maintenance and make the platform extensible without premature over-engineering.
+
+## Reminder and Context Association
+
+### Decision
+
+For the current MVP, reminders remain independent database entities. A reminder will not directly contain nullable foreign keys such as `task_id` or `event_id`.
+
+### Reason
+
+A reminder may eventually relate to different types of personal context, including tasks, events, goals, resources, and other future domain objects. Adding separate nullable foreign keys for every possible type would make the Reminder model increasingly coupled to the expanding domain.
+
+We will introduce the appropriate association mechanism when the Personal Context / Action layer is designed and the actual set of participating domain objects is established.
+
+### Current Principle
+
+Keep the Reminder model simple for the MVP while preserving the architecture needed for future context-aware reminders.
+
+### Future Direction
+
+The reminder system may later support escalation policies and multiple notification/action channels, such as phone notifications, sound, wearable haptics, and future hardware integrations. These capabilities should remain separate from the core Reminder entity.
