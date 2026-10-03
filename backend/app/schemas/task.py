@@ -1,14 +1,67 @@
 from datetime import datetime
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+
+TaskStatus = Literal[
+    "pending",
+    "in_progress",
+    "completed",
+    "cancelled",
+]
+
+TaskPriority = Literal[
+    "low",
+    "normal",
+    "high",
+]
 
 
 class TaskCreate(BaseModel):
-    title: str
+    title: str = Field(
+        min_length=1,
+        max_length=200,
+    )
     description: str | None = None
-    status: str = "pending"
-    priority: str = "normal"
+    status: TaskStatus = "pending"
+    priority: TaskPriority = "normal"
     due_at: datetime | None = None
+
+    @field_validator("title")
+    @classmethod
+    def validate_title(cls, value: str) -> str:
+        value = value.strip()
+
+        if not value:
+            raise ValueError("Title cannot be empty")
+
+        return value
+
+
+class TaskUpdate(BaseModel):
+    title: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=200,
+    )
+    description: str | None = None
+    status: TaskStatus | None = None
+    priority: TaskPriority | None = None
+    due_at: datetime | None = None
+
+    @field_validator("title")
+    @classmethod
+    def validate_title(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+
+        value = value.strip()
+
+        if not value:
+            raise ValueError("Title cannot be empty")
+
+        return value
 
 
 class TaskResponse(BaseModel):
