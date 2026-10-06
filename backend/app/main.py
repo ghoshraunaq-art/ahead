@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.api.routes.context import router as context_router
+from app.api.routes.context_links import router as context_links_router
 from app.api.routes.events import router as events_router
 from app.api.routes.health import router as health_router
 from app.api.routes.reminders import router as reminders_router
@@ -17,6 +18,7 @@ app.include_router(tasks_router)
 app.include_router(events_router)
 app.include_router(reminders_router)
 app.include_router(context_router)
+app.include_router(context_links_router)
 
 
 @app.get("/")
