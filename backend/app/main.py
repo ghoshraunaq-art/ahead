@@ -8,6 +8,9 @@ from app.api.routes.intelligence import router as intelligence_router
 from app.api.routes.reminders import router as reminders_router
 from app.api.routes.tasks import router as tasks_router
 from app.api.routes.planning import router as planning_router
+from app.api.routes.recommendations import (
+    router as recommendations_router,
+)
 from app.core.config import settings
 
 
@@ -23,6 +26,7 @@ app.include_router(context_router)
 app.include_router(context_links_router)
 app.include_router(intelligence_router)
 app.include_router(planning_router)
+app.include_router(recommendations_router)
 
 
 @app.get("/")
